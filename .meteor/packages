@@ -22,3 +22,4 @@ server-render
 aldeed:simple-schema
 aldeed:collection2@3.0.0
 mdg:validated-method
+accounts-password

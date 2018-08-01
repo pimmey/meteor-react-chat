@@ -1,6 +1,7 @@
 {
   "name": "meteor-chat",
   "private": true,
+  "author": "Yegor Borisenco <pimmey@pimmey.com>",
   "scripts": {
     "start": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",
@@ -9,6 +10,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
+    "formik": "^1.0.2",
     "meteor-node-stubs": "^0.4.1",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
