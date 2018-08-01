@@ -1,10 +1,38 @@
 import React from 'react'
-import styled from 'styled-components'
+// import styled from 'styled-components'
+import { Meteor } from 'meteor/meteor'
+import { withTracker } from 'meteor/react-meteor-data'
 
-const Div = styled.div`
-  background: lightblue;
-`
+import Messages from '../../../api/messages/collection'
+import Message from './components/Message'
 
-const Chat = () => <Div>Chat screen</Div>
+// const Div = styled.div`
+//   background: lightblue;
+// `
 
-export default Chat
+const Chat = ({
+  loading,
+  messages
+}) => (
+  <div>
+    {messages.map(message => <div key={message._id}>{message.message}</div>)}
+    <Message />
+  </div>
+)
+
+export default withTracker(() => {
+  let subscription
+
+  subscription = Meteor.subscribe('messages.all')
+
+  return {
+    loading: !subscription.ready(),
+    messages: Messages.find().fetch()
+  }
+  //
+  // if (Meteor.isServer || (subscription && subscription.ready())) {
+  //   return {
+  //     messages: Messages.find({}, { sort: { createdAt: -1 } }).fetch()
+  //   }
+  // }
+})(Chat)

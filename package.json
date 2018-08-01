@@ -16,6 +16,7 @@
     "react-helmet": "^5.2.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "simpl-schema": "^1.5.3",
     "styled-components": "^3.3.3"
   },
   "meteor": {
@@ -26,6 +27,10 @@
     "testModule": "tests/main.js"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "eslint": "^5.2.0",
+    "eslint-plugin-react": "^7.10.0",
     "standard": "^11.0.1"
   }
 }

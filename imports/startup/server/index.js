@@ -1,1 +1,2 @@
-import './ssr'
+// import './ssr'
+import '../../api/messages'
