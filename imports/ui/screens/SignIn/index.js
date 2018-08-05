@@ -23,7 +23,7 @@ class SignIn extends PureComponent {
       password,
       (err) => {
         if (err) {
-          return console.error(err)
+          return console.error(err) // TODO: maybe add a toast here?
         }
 
         return history.push('/')

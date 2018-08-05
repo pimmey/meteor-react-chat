@@ -4,15 +4,7 @@ import { Form } from 'formik'
 import FormGroup from '../../../../components/FormGroup/'
 import FIELDS from './config/fields'
 
-const SignUpForm = ({
-  values,
-  errors,
-  touched,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  isSubmitting
-}) => (
+const SignUpForm = ({ isSubmitting }) => (
   <Form>
     {FIELDS.map((field) => (
       <FormGroup

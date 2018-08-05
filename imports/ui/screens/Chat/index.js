@@ -1,38 +1,13 @@
 import React from 'react'
-// import styled from 'styled-components'
-import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
 
-import Messages from '../../../api/messages/collection'
-import Message from './components/Message'
+import ChannelList from './components/ChannelList'
+import Conversation from './components/Conversation'
 
-// const Div = styled.div`
-//   background: lightblue;
-// `
-
-const Chat = ({
-  loading,
-  messages
-}) => (
+const Chat = ({ chatrooms }) => (
   <div>
-    {messages.map(message => <div key={message._id}>{message.message}</div>)}
-    <Message />
+    <ChannelList />
+    <Conversation />
   </div>
 )
 
-export default withTracker(() => {
-  let subscription
-
-  subscription = Meteor.subscribe('messages.all')
-
-  return {
-    loading: !subscription.ready(),
-    messages: Messages.find().fetch()
-  }
-  //
-  // if (Meteor.isServer || (subscription && subscription.ready())) {
-  //   return {
-  //     messages: Messages.find({}, { sort: { createdAt: -1 } }).fetch()
-  //   }
-  // }
-})(Chat)
+export default Chat

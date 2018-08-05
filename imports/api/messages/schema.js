@@ -1,10 +1,10 @@
 import SimpleSchema from 'simpl-schema'
 
-const MessagesSchema = new SimpleSchema({
+const MessageSchema = new SimpleSchema({
   userId: {
     type: String
   },
-  chatId: {
+  channelId: {
     type: String
   },
   message: {
@@ -12,4 +12,4 @@ const MessagesSchema = new SimpleSchema({
   }
 })
 
-export default MessagesSchema
+export default MessageSchema

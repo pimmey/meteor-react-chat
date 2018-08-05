@@ -1,18 +1,28 @@
 import React, { PureComponent } from 'react'
+import { Meteor } from 'meteor/meteor'
+import { withRouter } from 'react-router'
+
 import { addMessage } from '../../../../../api/messages/methods'
 
-class Message extends PureComponent {
+class NewMessageForm extends PureComponent {
   state = {
     message: ''
   }
 
   sendMessage = () => {
     const { message } = this.state
+    const {
+      match: {
+        params: {
+          id: channelId
+        }
+      }
+    } = this.props
 
     return addMessage.call({
       message,
-      chatId: '123',
-      userId: '456'
+      channelId,
+      userId: Meteor.userId()
     }, (err, res) => {
       if (err) {
         console.error(err)
@@ -41,4 +51,4 @@ class Message extends PureComponent {
   }
 }
 
-export default Message
+export default withRouter(NewMessageForm)

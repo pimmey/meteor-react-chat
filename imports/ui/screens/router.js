@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import Routes from '../../startup/both/routes'
+import Routes from '../components/Routes'
 
 const Router = () => (
   <BrowserRouter>

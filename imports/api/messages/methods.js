@@ -7,7 +7,6 @@ export const addMessage = new ValidatedMethod({
   name: 'messages.addMessage',
   validate: MessagesSchema.validator(),
   run (message) {
-    console.log('message', message)
     Messages.insert(message)
   }
 })
