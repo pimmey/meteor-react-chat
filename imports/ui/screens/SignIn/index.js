@@ -15,23 +15,19 @@ class SignIn extends PureComponent {
   handleSubmit = ({
     user,
     password
-  }) => {
-    const { history } = this.props
-
-    return Meteor.loginWithPassword(
-      user,
-      password,
-      (err) => {
-        if (err) {
-          return console.error(err) // TODO: maybe add a toast here?
-        }
-
-        return history.push('/')
+  }) => Meteor.loginWithPassword(
+    user,
+    password,
+    (err) => {
+      if (err) {
+        return console.error(err) // TODO: maybe add a toast here?
       }
-    )
-  }
 
-  logout = () => Meteor.logout(() => console.log('logged out', Meteor.user()))
+      return this.props.history.push('/channel')
+    }
+  )
+
+  logout = () => Meteor.logout(() => this.props.history.push('/'))
 
   render () {
     return (

@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema'
 
-const ChannelSchema = new SimpleSchema({
+const ChannelsSchema = new SimpleSchema({
   name: {
     type: String
   },
@@ -10,4 +10,4 @@ const ChannelSchema = new SimpleSchema({
   }
 })
 
-export default ChannelSchema
+export default ChannelsSchema

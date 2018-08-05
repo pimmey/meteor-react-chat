@@ -1,6 +1,7 @@
 import React from 'react'
 import { Formik } from 'formik'
 import { Accounts } from 'meteor/accounts-base'
+import { withRouter } from 'react-router'
 
 import SignUpForm from './components/SignUpForm'
 import validate from './utils/validate'
@@ -22,4 +23,4 @@ const SignUp = () => (
   />
 )
 
-export default SignUp
+export default withRouter(SignUp)

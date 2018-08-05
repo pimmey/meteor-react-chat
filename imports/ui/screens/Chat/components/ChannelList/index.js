@@ -2,8 +2,13 @@ import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 import Channels from '../../../../../api/channels/collection'
+
+const StyledLink = styled(Link)`
+  display: block;
+`
 
 const ChannelList = ({
   loading,
@@ -14,12 +19,12 @@ const ChannelList = ({
       _id: id,
       name
     }) => (
-      <Link
+      <StyledLink
         key={id}
-        to={`/${id}`}
+        to={`/channel/${id}`}
       >
         {name}
-      </Link>
+      </StyledLink>
     ))}
   </div>
 )

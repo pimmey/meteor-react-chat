@@ -8,13 +8,28 @@ import NewMessageForm from '../NewMessageForm'
 
 const Conversation = ({
   loading,
-  messages,
-  chatrooms
+  messages
 }) => (
-  <div>
-    {messages.map(message => <div key={message._id}>{message.message}</div>)}
-    <NewMessageForm />
-  </div>
+  loading ? (
+    <div>Loading messages</div>
+  ) : (
+    <div>
+      {messages.map(({
+        _id: id,
+        message,
+        user: {
+          username
+        }
+      }) => (
+        <div
+          key={id}
+        >
+          <strong>{username}:</strong> {message}
+        </div>
+      ))}
+      <NewMessageForm />
+    </div>
+  )
 )
 
 export default withRouter(
@@ -29,9 +44,16 @@ export default withRouter(
 
     const subscription = Meteor.subscribe('messages.byChannelId', channelId)
 
+    const loading = !subscription.ready()
+
+    const messages = Messages.find().fetch().map(message => ({
+      ...message,
+      user: Meteor.users.findOne(message.userId)
+    }))
+
     return {
-      loading: !subscription.ready(),
-      messages: Messages.find().fetch()
+      loading,
+      messages
     }
   })(Conversation)
 )

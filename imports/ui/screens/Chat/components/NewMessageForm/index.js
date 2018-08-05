@@ -9,7 +9,8 @@ class NewMessageForm extends PureComponent {
     message: ''
   }
 
-  sendMessage = () => {
+  sendMessage = (e) => {
+    e.preventDefault()
     const { message } = this.state
     const {
       match: {
@@ -19,15 +20,20 @@ class NewMessageForm extends PureComponent {
       }
     } = this.props
 
+    if (message === '') {
+      return
+    }
+
     return addMessage.call({
       message,
       channelId,
       userId: Meteor.userId()
     }, (err, res) => {
       if (err) {
-        console.error(err)
+        return console.error(err)
       } else {
         console.log('success')
+        return this.setState({ message: '' })
       }
     })
   }
@@ -40,13 +46,13 @@ class NewMessageForm extends PureComponent {
 
   render () {
     return (
-      <div>
+      <form onSubmit={this.sendMessage}>
         <input
           value={this.state.message}
           onChange={this.changeMessage}
         />
-        <button onClick={this.sendMessage}>Send</button>
-      </div>
+        <button type="submit">Send</button>
+      </form>
     )
   }
 }

@@ -1,11 +1,11 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 
 import Channels from './collection'
-import ChannelSchema from './schema'
+import ChannelsSchema from './schema'
 
 export const addChannel = new ValidatedMethod({
   name: 'channels.addChannel',
-  validate: ChannelSchema.validator(),
+  validate: ChannelsSchema.validator(),
   run (channel) {
     Channels.insert(channel)
   }

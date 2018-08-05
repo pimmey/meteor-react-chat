@@ -1,9 +1,9 @@
 import { Mongo } from 'meteor/mongo'
 
-import ChannelSchema from './schema'
+import ChannelsSchema from './schema'
 
 const Channels = new Mongo.Collection('channels')
 
-Channels.attachSchema(ChannelSchema)
+Channels.attachSchema(ChannelsSchema)
 
 export default Channels
