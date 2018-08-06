@@ -9,7 +9,7 @@ import SignUp from '../../screens/SignUp'
 
 const ROUTES = [
   {
-    path: '/channel/:id?',
+    path: '/:type(channel|direct)/:id?',
     component: Chat,
     isPrivate: true
   },

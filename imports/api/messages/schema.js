@@ -15,7 +15,6 @@ const MessageSchema = new SimpleSchema({
   createdAt: {
     type: Date,
     autoValue: function () {
-      console.log('this.isInsert', this.isInsert)
       if (this.isInsert) {
         return new Date()
       } else if (this.isUpsert) {

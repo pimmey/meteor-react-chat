@@ -12,7 +12,7 @@ const initialValues = {
   password: ''
 }
 
-const onSubmit = (values) => Accounts.createUser(values, () => console.log('user created'))
+const onSubmit = values => Accounts.createUser(values, () => this.props.history.push('/channel'))
 
 const SignUp = () => (
   <Formik

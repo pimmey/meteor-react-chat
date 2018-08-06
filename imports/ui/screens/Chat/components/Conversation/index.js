@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import { withRouter } from 'react-router'
 
 import Messages from '../../../../../api/messages/collection'
-import NewMessageForm from '../NewMessageForm'
+import Message from './components/Message'
 
 const Conversation = ({
   loading,
@@ -12,22 +12,18 @@ const Conversation = ({
 }) => (
   loading ? (
     <div>Loading messages</div>
-  ) : (
+  ) : console.log('messages', messages) || (
     <div>
       {messages.map(({
         _id: id,
-        message,
-        user: {
-          username
-        }
+        ...rest
       }) => (
-        <div
+        <Message
           key={id}
-        >
-          <strong>{username}:</strong> {message}
-        </div>
+          id={id}
+          {...rest}
+        />
       ))}
-      <NewMessageForm />
     </div>
   )
 )
@@ -37,18 +33,26 @@ export default withRouter(
     const {
       match: {
         params: {
-          id: channelId
+          id: channelId,
+          type: channelType
         }
       }
     } = props
 
-    const subscription = Meteor.subscribe('messages.byChannelId', channelId)
+    const subscription = Meteor.subscribe('messages.byChannelId', {
+      channelId,
+      isDirect: channelType === 'direct'
+    })
 
     const loading = !subscription.ready()
 
-    const messages = Messages.find().fetch().map(message => ({
-      ...message,
-      user: Meteor.users.findOne(message.userId)
+    const messages = Messages.find().fetch().map(({
+      userId,
+      ...rest
+    }) => ({
+      user: Meteor.users.findOne(userId),
+      editable: userId === Meteor.userId(),
+      ...rest
     }))
 
     return {

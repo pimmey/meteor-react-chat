@@ -11,18 +11,16 @@ const PrivateRoute = ({
 }) => (
   <Route
     {...rest}
-    render={props =>
-      Meteor.userId() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/sign-in',
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
+    render={props => Meteor.userId() ? (
+      <Component {...props} />
+    ) : (
+      <Redirect
+        to={{
+          pathname: '/sign-in',
+          state: { from: props.location }
+        }}
+      />
+    )}
   />
 )
 

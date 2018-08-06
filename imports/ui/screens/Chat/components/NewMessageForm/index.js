@@ -11,11 +11,14 @@ class NewMessageForm extends PureComponent {
 
   sendMessage = (e) => {
     e.preventDefault()
+
     const { message } = this.state
+
     const {
       match: {
         params: {
-          id: channelId
+          id: channelId,
+          type: channelType
         }
       }
     } = this.props
@@ -27,12 +30,12 @@ class NewMessageForm extends PureComponent {
     return addMessage.call({
       message,
       channelId,
-      userId: Meteor.userId()
+      userId: Meteor.userId(),
+      isDirect: channelType === 'direct'
     }, (err, res) => {
       if (err) {
         return console.error(err)
       } else {
-        console.log('success')
         return this.setState({ message: '' })
       }
     })

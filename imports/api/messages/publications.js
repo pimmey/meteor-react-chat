@@ -2,18 +2,23 @@ import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 
 import Messages from './collection'
-import Channels from '../channels/collection'
 
 Meteor.publish('messages.all', () => Messages.find())
 
-Meteor.publishComposite('messages.byChannelId', function (channelId) {
+Meteor.publishComposite('messages.byChannelId', function ({
+  channelId,
+  isDirect
+}) {
   new SimpleSchema({
     channelId: {
       type: String
     }
   }).validate({ channelId })
 
-  // return Messages.find({ channelId })
+  if (isDirect && !channelId.split('-').includes(Meteor.userId())) {
+    return this.ready()
+  }
+
   return {
     find () {
       return Messages.find({ channelId })
@@ -21,12 +26,8 @@ Meteor.publishComposite('messages.byChannelId', function (channelId) {
 
     children: [{
       find (message) {
-        // return Meteor.users.find({
-        //   _id: message.userId
-        // })
-
-        return Channels.find({
-          _id: message.channelId
+        return Meteor.users.find({
+          _id: message.userId
         })
       }
     }]
