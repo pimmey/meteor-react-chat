@@ -12,7 +12,7 @@ const Conversation = ({
 }) => (
   loading ? (
     <div>Loading messages</div>
-  ) : console.log('messages', messages) || (
+  ) : (
     <div>
       {messages.map(({
         _id: id,

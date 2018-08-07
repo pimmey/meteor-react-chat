@@ -1,12 +1,21 @@
-import React, { PureComponent } from 'react'
+import React, {
+  PureComponent,
+  Fragment
+} from 'react'
 import moment from 'moment'
 
-import { updateMessage } from '../../../../../../../api/messages/methods'
+import {
+  updateMessage,
+  deleteMessage
+} from '../../../../../../../api/messages/methods'
+import EditMessageForm from './components/EditMessageForm'
+import ConfirmDeleteModal from './components/ConfirmDeleteModal'
 
 class Message extends PureComponent {
   state = {
-    showForm: false,
-    updatedMessage: ''
+    showEditMessageForm: false,
+    updatedMessage: '',
+    showModal: false
   }
 
   componentDidMount () {
@@ -19,8 +28,8 @@ class Message extends PureComponent {
     }
   }) => this.setState({ updatedMessage })
 
-  toggleShowForm = () => this.setState(({ showForm: prevShowForm }) => ({
-    showForm: !prevShowForm
+  toggleShowForm = () => this.setState(({ showEditMessageForm: prevShowForm }) => ({
+    showEditMessageForm: !prevShowForm
   }))
 
   saveMessage = (e) => {
@@ -32,14 +41,31 @@ class Message extends PureComponent {
 
     const { updatedMessage } = this.state
 
+    // Call the update message method and close edit form on success
     updateMessage.call({
       messageId,
       updatedMessage
-    }, (err, res) => {
+    }, (err) => {
       if (err) {
         return console.error(err)
       } else {
-        return this.setState({ showForm: false })
+        return this.setState({ showEditMessageForm: false })
+      }
+    })
+  }
+
+  openConfirmDeleteModal = () => this.setState({ showModal: true })
+
+  closeConfirmDeleteModal = () => this.setState({ showModal: false })
+
+  deleteMessage = () => {
+    const {
+      id: messageId
+    } = this.props
+
+    deleteMessage.call({ messageId }, (err) => {
+      if (err) {
+        return console.error(err)
       }
     })
   }
@@ -56,11 +82,13 @@ class Message extends PureComponent {
     } = this.props
 
     const {
-      showForm,
-      updatedMessage
+      showEditMessageForm,
+      updatedMessage,
+      showModal
     } = this.state
 
-    if (!showForm) {
+    // Rendering the message item, with control buttons for editable messages
+    if (!showEditMessageForm) {
       return (
         <div>
           <strong>{username} {moment(createdAt).fromNow()}:</strong> {message}
@@ -68,23 +96,32 @@ class Message extends PureComponent {
             <span>(updated)</span>
           )}
           {editable && (
-            <button onClick={this.toggleShowForm}>edit</button>
+            <Fragment>
+              <button onClick={this.toggleShowForm}>edit</button>
+              <button onClick={this.openConfirmDeleteModal}>delete</button>
+              {showModal && (
+                <ConfirmDeleteModal
+                  isOpen={showModal}
+                  close={this.closeConfirmDeleteModal}
+                  deleteMessage={this.deleteMessage}
+                />
+              )}
+            </Fragment>
           )}
         </div>
       )
     }
 
+    // Rendering the edit message form
     return (
       <div>
-        {showForm && (
-          <form onSubmit={this.saveMessage}>
-            <input
-              value={updatedMessage}
-              onChange={this.handleMessageChange}
-            />
-            <button onClick={this.toggleShowForm}>cancel</button>
-            <button type="submit">save changes</button>
-          </form>
+        {showEditMessageForm && (
+          <EditMessageForm
+            saveMessage={this.saveMessage}
+            handleMessageChange={this.handleMessageChange}
+            toggleShowForm={this.toggleShowForm}
+            updatedMessage={updatedMessage}
+          />
         )}
       </div>
     )

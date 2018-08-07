@@ -29,8 +29,8 @@ export const addMessage = new ValidatedMethod({
 
     if (isDirect && !channelId.split('-').includes(this.userId)) {
       throw new Meteor.Error(
-        'messages.addMessage.unauthorized',
-        'You are not allowed to post this message'
+        `${this.name}.unauthorized`,
+        'You are not allowed to post this message here'
       )
     }
 
@@ -56,7 +56,7 @@ export const updateMessage = new ValidatedMethod({
 
     if (message.userId !== this.userId) {
       throw new Meteor.Error(
-        'messages.updateMessage.unauthorized',
+        `${this.name}.unauthorized`,
         'Cannot edit this message, it was not created by you'
       )
     }
@@ -66,5 +66,26 @@ export const updateMessage = new ValidatedMethod({
         message: updatedMessage
       }
     })
+  }
+})
+
+export const deleteMessage = new ValidatedMethod({
+  name: 'messages.deleteMessage',
+  validate: new SimpleSchema({
+    messageId: {
+      type: String
+    }
+  }).validator(),
+  run ({ messageId }) {
+    const message = Messages.findOne(messageId)
+
+    if (message.userId !== this.userId) {
+      throw new Meteor.Error(
+        `${this.name}.unauthorized`,
+        'Cannot delete this message, it was not created by you'
+      )
+    }
+
+    Messages.remove(messageId)
   }
 })
