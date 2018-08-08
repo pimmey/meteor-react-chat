@@ -3,8 +3,8 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { withRouter } from 'react-router'
 
-import Messages from '../../../../../api/messages/collection'
-import Message from './components/Message'
+import Messages from '../../../../../../../api/messages/collection'
+import Message from './components/Message/index'
 
 const Conversation = ({
   loading,
@@ -50,7 +50,7 @@ export default withRouter(
       userId,
       ...rest
     }) => ({
-      user: Meteor.users.findOne(userId),
+      user: Meteor.users.findOne(userId), // This seems a bit expensive, but not sure how to avoid it
       editable: userId === Meteor.userId(),
       ...rest
     }))

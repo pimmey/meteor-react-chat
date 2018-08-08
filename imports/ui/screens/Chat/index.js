@@ -6,17 +6,24 @@ import { Redirect } from 'react-router-dom'
 
 import ChannelList from './components/ChannelList'
 import UserList from './components/UserList'
-import Conversation from './components/Conversation'
-import NewMessageForm from './components/NewMessageForm'
+import Main from './components/Main'
 
 const Container = styled.div`
-  display: grid;
+  display: flex;
+  height: 100vh;
+`
+
+const Aside = styled.aside`
+  width: 200px;
+  margin-right: -1px;
+  border-right: 1px solid lightgray;
 `
 
 const Chat = ({
   loading,
   redirect
 }) => {
+  // If this is a direct channel where user doesn't belong - redirect away
   if (redirect) {
     return (
       <Redirect
@@ -25,15 +32,19 @@ const Chat = ({
     )
   }
 
+  // Otherwise render chat
   return (
     loading ? (
       <div>Loading users</div>
     ) : (
       <Container>
-        <ChannelList />
-        <UserList />
-        <Conversation />
-        <NewMessageForm />
+        <Aside>
+          <div>Channels</div>
+          <ChannelList />
+          <div>Users</div>
+          <UserList />
+        </Aside>
+        <Main />
       </Container>
     )
   )

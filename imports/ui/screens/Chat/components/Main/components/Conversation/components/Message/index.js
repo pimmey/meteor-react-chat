@@ -7,9 +7,9 @@ import moment from 'moment'
 import {
   updateMessage,
   deleteMessage
-} from '../../../../../../../api/messages/methods'
-import EditMessageForm from './components/EditMessageForm'
-import ConfirmDeleteModal from './components/ConfirmDeleteModal'
+} from '../../../../../../../../../api/messages/methods' // Wish I could configure aliases, but WebStorm bitches about them
+import EditMessageForm from './components/EditMessageForm/index'
+import ConfirmDeleteModal from './components/ConfirmDeleteModal/index'
 
 class Message extends PureComponent {
   state = {

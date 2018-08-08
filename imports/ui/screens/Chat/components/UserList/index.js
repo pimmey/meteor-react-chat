@@ -28,8 +28,11 @@ const ChannelList = ({
 )
 
 export default withTracker(() => ({
-  users: Meteor.users.find({ _id: {
-    $ne: Meteor.userId()
-  }}).fetch(),
+  // Users except for yourself :-)
+  users: Meteor.users.find({
+    _id: {
+      $ne: Meteor.userId()
+    }
+  }).fetch(),
   currentUserId: Meteor.userId()
 }))(ChannelList)
